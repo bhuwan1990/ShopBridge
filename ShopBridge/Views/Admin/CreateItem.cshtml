@@ -81,25 +81,24 @@
         var _apiUrl = "https://localhost:44372/";
 
         $(document).ready(function () {
-            debugger;
+           
             PopulateCategories();
-
             $(document).on("click", "#btnSave", function () {
-                debugger;
-                var obj = {
-                    categoryId: parseInt($("#CategoryId").val()),
-                    itemCode: $("#ItemCode").val(),
-                    itemName: $("#ItemName").val(),
-                    price: parseFloat($("#Price").val()),
-                };
 
-                AddItem(obj);
+                if (IsValid()) {
+                    var obj = {
+                        categoryId: parseInt($("#CategoryId").val()),
+                        itemCode: $("#ItemCode").val(),
+                        itemName: $("#ItemName").val(),
+                        price: parseFloat($("#Price").val())
+                    };
+
+                    AddItem(obj);
+                }
             });
 
             $(document).on("click", "#btnUpdate", function () {
-                debugger;
-
-
+               
                 var obj = {
                     id: parseInt($("#id").val()),
                     categoryId: parseInt($("#CategoryId").val()),
@@ -114,10 +113,25 @@
 
         });
         function IsValid() {
-            let a = 0;
-            if ($("#ItemCode").val().length == 0) {
-
+            $('.field-validation-valid').text('');
+            var flag = true;
+            if ($("#CategoryId").val() == -1) {
+                $('[data-valmsg-for="CategoryId"]').text('Please enter Category.');
+                flag = false;
             }
+            if ($("#ItemCode").val().length == 0) {
+                $('[data-valmsg-for="ItemCode"]').text('Please enter item code.');
+                flag = false;
+            }
+            if ($("#ItemName").val().length == 0) {
+                $('[data-valmsg-for="ItemName"]').text('Please enter item name.');
+                flag = false;
+            }
+            if ($("#Price").val().length == 0) {
+                $('[data-valmsg-for="Price"]').text('Please enter Price.');
+                flag = false;
+            }
+            return flag;
         }
         function AddItem(obj) {
 
@@ -186,7 +200,7 @@
                 type: "GET",
                 url: _apiUrl + "api/items/GetItemById/" + itemId,
                 success: function (data) {
-                    debugger;
+                   
                     if (data != 'undefined') {
                         $("#id").val(data.id);
                         $("#CategoryId").val(data.categoryId);

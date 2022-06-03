@@ -56,7 +56,7 @@ namespace ShopBridge.API.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                return BadRequest(ex.InnerException.Message);
             }
             //return NotFound(new Items());
         }
@@ -92,7 +92,7 @@ namespace ShopBridge.API.Controllers
                 return Ok("Data Updated Succesfully");
 
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ItemExists(id))
                 {
@@ -100,11 +100,10 @@ namespace ShopBridge.API.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(ex.InnerException.Message);
                 }
             }
 
-            return NoContent();
         }
 
         [HttpPost]
