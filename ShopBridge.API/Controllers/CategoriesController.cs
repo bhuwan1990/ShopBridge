@@ -12,7 +12,8 @@ namespace ShopBridge.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
-    {
+    { 
+        
         private readonly shopbridgeContext _context;
 
         public CategoriesController(shopbridgeContext context)
